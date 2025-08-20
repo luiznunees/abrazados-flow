@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif'],
+				'inter': ['Inter', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +65,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Brand-specific colors for Abrazados SAP
+				'sap-blue': 'hsl(var(--sap-blue))',
+				'sap-orange': 'hsl(var(--sap-orange))',
+				'sap-light': 'hsl(var(--sap-light))',
+				'sap-dark': 'hsl(var(--sap-dark))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

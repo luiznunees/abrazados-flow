@@ -2,41 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Abrazados SAP Design System - Festival-inspired colors and styles */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Main brand colors for Abrazados SAP */
+    --sap-blue: 236 79% 44%; /* #121FCA */
+    --sap-orange: 14 95% 58%; /* #FB4E30 */
+    --sap-light: 0 0% 92%; /* #EBEBEB */
+    --sap-dark: 236 79% 15%; /* Darker blue for depth */
+    
+    /* Semantic tokens based on brand colors */
+    --background: var(--sap-blue);
+    --foreground: var(--sap-light);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 236 79% 8%;
+    --card-foreground: var(--sap-light);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 236 79% 12%;
+    --popover-foreground: var(--sap-light);
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--sap-orange);
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 236 79% 20%;
+    --secondary-foreground: var(--sap-light);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 236 79% 15%;
+    --muted-foreground: 0 0% 80%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--sap-orange);
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 236 79% 25%;
+    --input: 236 79% 20%;
+    --ring: var(--sap-orange);
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+    
+    /* Custom gradients for festival vibe */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--sap-blue)), hsl(var(--sap-dark)));
+    --gradient-cta: linear-gradient(135deg, hsl(var(--sap-orange)), hsl(14 95% 65%));
+    --gradient-glow: radial-gradient(circle, hsl(var(--sap-orange) / 0.3), transparent 70%);
+    
+    /* Shadows with brand colors */
+    --shadow-glow: 0 0 40px hsl(var(--sap-orange) / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(var(--sap-blue) / 0.5);
+    
+    /* Animation variables */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +118,108 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  /* Festival-specific utility classes */
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .bg-gradient-cta {
+    background: var(--gradient-cta);
+  }
+  
+  .bg-gradient-glow {
+    background: var(--gradient-glow);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+  
+  /* Video overlay for better text contrast */
+  .video-overlay {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--sap-blue) / 0.3) 0%,
+      hsl(var(--sap-blue) / 0.6) 100%
+    );
+  }
+  
+  /* Pulsing animation for CTA */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 20px hsl(var(--sap-orange) / 0.4);
+    }
+    100% {
+      box-shadow: 0 0 40px hsl(var(--sap-orange) / 0.8);
+    }
+  }
+  
+  
+  /* Slide up animation for modal */
+  .slide-up {
+    animation: slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes slide-up {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation delays */
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  /* Backdrop blur for video pause state */
+  .backdrop-blur-strong {
+    backdrop-filter: blur(8px) brightness(0.7);
   }
 }
