@@ -216,6 +216,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       mercado_pago_status: "pending" | "approved" | "rejected" | "cancelled"

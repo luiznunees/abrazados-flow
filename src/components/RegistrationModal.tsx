@@ -4,6 +4,8 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { X, Loader2 } from 'lucide-react';
 import { PaymentModal } from './PaymentModal';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface RegistrationData {
   nome: string;
@@ -83,12 +85,27 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
 
     setIsLoading(true);
     
-    // Simulate API call - here you would integrate with Supabase
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Save registration to Supabase
+      const { data, error } = await supabase
+        .from('registrations')
+        .insert([{
+          name: formData.nome,
+          email: formData.email,
+          phone: formData.telefone,
+          city: formData.cidade,
+          payment_method: 'mercado_pago',
+          status: 'pending'
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+      
       setStep('payment-choice');
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error('Erro ao realizar inscrição. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
@@ -266,6 +283,9 @@ export const RegistrationModal = ({ isOpen, onClose }: RegistrationModalProps) =
               </p>
               <p className="font-inter text-sm text-muted-foreground">
                 Você receberá as informações do evento no WhatsApp e no e-mail.
+              </p>
+              <p className="font-inter text-xs text-muted-foreground mt-2">
+                Seu QR Code de entrada foi gerado automaticamente.
               </p>
               
               <Button
