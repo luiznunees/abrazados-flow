@@ -144,56 +144,88 @@ export type Database = {
       }
       registrations: {
         Row: {
+          checked_in: boolean | null
+          checked_in_at: string | null
           city: string
           created_at: string | null
           email: string
           id: string
+          mercado_pago_payment_id: string | null
           name: string
           payment_id: string | null
           payment_method: string | null
           payment_status: Database["public"]["Enums"]["payment_status"] | null
           phone: string
+          qr_code: string | null
           registration_date: string | null
+          status: Database["public"]["Enums"]["registration_status"] | null
           updated_at: string | null
         }
         Insert: {
+          checked_in?: boolean | null
+          checked_in_at?: string | null
           city: string
           created_at?: string | null
           email: string
           id?: string
+          mercado_pago_payment_id?: string | null
           name: string
           payment_id?: string | null
           payment_method?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"] | null
           phone: string
+          qr_code?: string | null
           registration_date?: string | null
+          status?: Database["public"]["Enums"]["registration_status"] | null
           updated_at?: string | null
         }
         Update: {
+          checked_in?: boolean | null
+          checked_in_at?: string | null
           city?: string
           created_at?: string | null
           email?: string
           id?: string
+          mercado_pago_payment_id?: string | null
           name?: string
           payment_id?: string | null
           payment_method?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"] | null
           phone?: string
+          qr_code?: string | null
           registration_date?: string | null
+          status?: Database["public"]["Enums"]["registration_status"] | null
           updated_at?: string | null
         }
         Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      admin_stats: {
+        Row: {
+          checked_in_count: number | null
+          paid_registrations: number | null
+          pending_registrations: number | null
+          total_registrations: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      generate_qr_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       mercado_pago_status: "pending" | "approved" | "rejected" | "cancelled"
       payment_status: "pending" | "paid" | "failed"
+      registration_status:
+        | "pending"
+        | "confirmed"
+        | "paid"
+        | "cancelled"
+        | "checked_in"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -323,6 +355,13 @@ export const Constants = {
     Enums: {
       mercado_pago_status: ["pending", "approved", "rejected", "cancelled"],
       payment_status: ["pending", "paid", "failed"],
+      registration_status: [
+        "pending",
+        "confirmed",
+        "paid",
+        "cancelled",
+        "checked_in",
+      ],
     },
   },
 } as const
