@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Users, UserCheck, Clock, CheckCircle, Search, Download, QrCode } from 'lucide-react';
+import { Users, UserCheck, Clock, CheckCircle, Search, Download, QrCode, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Registration {
@@ -141,6 +141,21 @@ export const AdminDashboard = () => {
     }
   };
 
+  const syncMercadoPago = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('sync-mercado-pago');
+      
+      if (error) throw error;
+      
+      toast.success('Sincronização com Mercado Pago concluída!');
+      fetchRegistrations();
+      fetchStats();
+    } catch (error) {
+      toast.error('Erro ao sincronizar com Mercado Pago');
+      console.error('Error syncing with Mercado Pago:', error);
+    }
+  };
+
   const exportToCSV = () => {
     const csvContent = [
       ['Nome', 'Email', 'Telefone', 'Cidade', 'Data Inscrição', 'Status', 'Check-in'],
@@ -168,7 +183,7 @@ export const AdminDashboard = () => {
       confirmed: { variant: 'outline', label: 'Confirmado' },
       paid: { variant: 'default', label: 'Pago' },
       cancelled: { variant: 'destructive', label: 'Cancelado' },
-      checked_in: { variant: 'festival', label: 'Presente' }
+      checked_in: { variant: 'default', label: 'Presente' }
     };
     
     const config = variants[status] || variants.pending;
@@ -253,10 +268,16 @@ export const AdminDashboard = () => {
                       Visualize e gerencie todas as inscrições do evento
                     </CardDescription>
                   </div>
-                  <Button onClick={exportToCSV} variant="outline">
-                    <Download className="h-4 w-4 mr-2" />
-                    Exportar CSV
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button onClick={syncMercadoPago} variant="outline">
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Sync Mercado Pago
+                    </Button>
+                    <Button onClick={exportToCSV} variant="outline">
+                      <Download className="h-4 w-4 mr-2" />
+                      Exportar CSV
+                    </Button>
+                  </div>
                 </div>
                 
                 <div className="flex gap-4 mt-4">
@@ -370,7 +391,7 @@ export const AdminDashboard = () => {
                         <TableCell>{getStatusBadge(registration.status)}</TableCell>
                         <TableCell>
                           <Button
-                            variant={registration.checked_in ? "destructive" : "festival"}
+                            variant={registration.checked_in ? "outline" : "default"}
                             size="sm"
                             onClick={() => handleCheckIn(registration.id, registration.checked_in)}
                           >

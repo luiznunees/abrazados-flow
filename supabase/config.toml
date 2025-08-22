@@ -1,1 +1,4 @@
 project_id = "lecesunfdmpfabhizcvr"
+
+[functions.sync-mercado-pago]
+verify_jwt = false
